@@ -1,4 +1,4 @@
 package toy.example.KDTBE5_TOYPROJECT.service;
 
-public class OutPlayerService {
+public class ExplusionService {
 }
