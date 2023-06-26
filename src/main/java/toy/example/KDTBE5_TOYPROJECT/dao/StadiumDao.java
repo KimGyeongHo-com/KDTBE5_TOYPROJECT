@@ -21,5 +21,13 @@ public class StadiumDao {
         return INSTANCE;
     }
 
-    //메소드들 작성하시면 됩니다.
+    // 경기장 등록
+    public void insertStadium(String name) throws SQLException {
+        String query = "INSERT INTO stadium (name, create_date) VALUES (?, NOW())";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, name);
+            statement.executeUpdate();
+        }
+    }
 }
