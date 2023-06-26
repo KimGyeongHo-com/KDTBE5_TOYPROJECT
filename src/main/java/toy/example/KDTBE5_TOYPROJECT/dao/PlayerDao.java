@@ -1,26 +1,42 @@
 package toy.example.KDTBE5_TOYPROJECT.dao;
 
 import db.DBConnection;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import toy.example.KDTBE5_TOYPROJECT.model.Player;
+import toy.example.KDTBE5_TOYPROJECT.model.Team;
+import toy.example.KDTBE5_TOYPROJECT.repository.BaseballRepository;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
 import java.util.List;
+
+@Repository
 public class PlayerDao {
-    private static PlayerDao INSTANCE;
-    private Connection connection;
+    private static PlayerDao instance;
+    private final BaseballRepository baseballRepository;
 
-    /* 싱글톤 패턴입니다. */
-    private PlayerDao(Connection connection){
-        this.connection = connection;
-    }
-    public static synchronized PlayerDao getInstance(){
-        if(INSTANCE == null)
-            INSTANCE = new PlayerDao(getInstance().connection);
 
-        return INSTANCE;
+
+    public static synchronized PlayerDao getInstance() {
+        if(instance == null)
+            instance = new PlayerDao();
+        return instance;
     }
 
 
-    //메소드들 작성하시면 됩니다.
+    public List<Player> getAllPlayerByPosition(String position) {
+        System.out.println("PlayerDaoCalled");
+        return baseballRepository.getAllPlayerByPosition(position);
+    }
+
+    public List<Team> getAllTeam() {
+        return baseballRepository.getAllTeam();
+    }
+
+    public List<Player> getAllPlayerByTeam(String name) {
+        return baseballRepository.getAllPlayerByTeam(name);
+    }
 }

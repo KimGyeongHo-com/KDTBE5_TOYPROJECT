@@ -1,8 +1,11 @@
 package db;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+@Component
 public class DBConnection {
     public static Connection getInstance(){
         // MySQL 연결 정보
@@ -22,4 +25,6 @@ public class DBConnection {
         }
         return null;
     }
+
+
 }
