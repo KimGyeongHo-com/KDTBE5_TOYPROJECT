@@ -31,7 +31,7 @@ public class TeamDao {
                 teamList.add(team);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PlayerDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return teamList;
     }
