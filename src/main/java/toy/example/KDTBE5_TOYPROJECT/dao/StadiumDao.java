@@ -17,19 +17,19 @@ public class StadiumDao {
     }
     public static synchronized StadiumDao getInstance(){
         if(INSTANCE == null)
-            INSTANCE = new StadiumDao(getInstance().connection);
+            INSTANCE = new StadiumDao(DBConnection.getInstance());
 
         return INSTANCE;
     }
 
+
     // 경기장 등록
-    public void insertStadium(Stadium stadium) throws SQLException {
-        String query = "INSERT INTO stadium (name, create_date) VALUES (?, NOW())";
+    public int insert(Stadium stadium) throws SQLException {
+        String query = "INSERT INTO stadium_tb (name, created_at) VALUES (?, NOW())";
 
         try (PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, stadium.getName());
-            statement.setTimestamp(2, stadium.getCreateDate());
-            statement.executeUpdate();
+            return statement.executeUpdate();
         }
     }
 }

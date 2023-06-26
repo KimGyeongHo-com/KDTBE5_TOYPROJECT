@@ -8,7 +8,7 @@ public class DBConnection {
         // MySQL 연결 정보
         String url = "jdbc:mysql://localhost:3306/metadb";
         String username = "root";
-        String password = "mysql";
+        String password = "root1234";
 
         // JDBC 드라이버 로드
         try {
