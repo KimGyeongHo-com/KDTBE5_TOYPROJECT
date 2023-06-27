@@ -2,25 +2,40 @@ package toy.example.KDTBE5_TOYPROJECT.dao;
 
 import db.DBConnection;
 import lombok.Getter;
+import toy.example.KDTBE5_TOYPROJECT.model.Player;
+import toy.example.KDTBE5_TOYPROJECT.model.Stadium;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class PlayerDao {
-    private static PlayerDao INSTANCE;
-    private Connection connection;
+//    private Connection connection = DBConnection.getInstance();
+private Connection connection;
+    private static final PlayerDao instance = new PlayerDao();
 
-    /* 싱글톤 패턴입니다. */
-    private PlayerDao(Connection connection){
-        this.connection = connection;
-    }
-    public static synchronized PlayerDao getInstance(){
-        if(INSTANCE == null)
-            INSTANCE = new PlayerDao(getInstance().connection);
-
-        return INSTANCE;
+    private PlayerDao() {
+        connection = DBConnection.getInstance();
     }
 
+    public static PlayerDao getInstance() {
+        return instance;
+    }
 
-    //메소드들 작성하시면 됩니다.
+    // 선수 등록
+    public int insert(Player player) throws SQLException {
+        String query = "INSERT INTO player_tb (team_id, name, position, created_at) VALUES (?, ?, ?, NOW())";
+        int result = 0;
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, player.getTeamId());
+            statement.setString(2, player.getName());
+            statement.setString(3, player.getPosition());
+            result = statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PlayerDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
 }
