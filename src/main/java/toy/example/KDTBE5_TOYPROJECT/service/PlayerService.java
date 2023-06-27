@@ -16,7 +16,7 @@ public class PlayerService {
         this.playerDao = playerDao;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void insertPlayer(UserInputDTO userInputDTO) {
         try {
             // 인자 유무 확인

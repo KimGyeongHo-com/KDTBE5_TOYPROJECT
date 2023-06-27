@@ -15,7 +15,7 @@ public class StadiumService {
         this.stadiumDao = stadiumDao;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void insertStadium(UserInputDTO userInputDTO) {
         try {
             // 인자 유무 확인

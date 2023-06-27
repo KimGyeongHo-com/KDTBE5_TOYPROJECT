@@ -1,18 +1,13 @@
 package toy.example.KDTBE5_TOYPROJECT.dao;
 
 import db.DBConnection;
-import lombok.Getter;
 import toy.example.KDTBE5_TOYPROJECT.model.Player;
-import toy.example.KDTBE5_TOYPROJECT.model.Stadium;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlayerDao {
-//    private Connection connection = DBConnection.getInstance();
 private Connection connection;
     private static final PlayerDao instance = new PlayerDao();
 
@@ -26,7 +21,7 @@ private Connection connection;
 
     // 선수 등록
     public int insert(Player player) throws SQLException {
-        String query = "INSERT INTO player_tb (team_id, name, position, created_at) VALUES (?, ?, ?, NOW())";
+        String query = "INSERT INTO player (team_id, name, position, created_at) VALUES (?, ?, ?, NOW())";
         int result = 0;
         try (PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, player.getTeamId());

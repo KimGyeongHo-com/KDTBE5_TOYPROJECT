@@ -14,7 +14,7 @@ public class TeamService {
         this.teamDao = teamDao;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void insertTeam(UserInputDTO userInputDTO) {
         try {
             // 인자 유무 확인

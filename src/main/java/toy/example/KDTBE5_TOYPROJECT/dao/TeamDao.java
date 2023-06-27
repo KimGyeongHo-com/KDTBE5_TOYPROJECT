@@ -21,17 +21,12 @@ public class TeamDao {
 
     // 팀 등록
     public int insert(Team team) throws SQLException {
-        String query = "INSERT INTO team_tb (stadium_id, name, created_at) VALUES (?, ?, NOW())";
+        String query = "INSERT INTO team (stadium_id, name, created_at) VALUES (?, ?, NOW())";
         int result = 0;
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, team.getStadiumId());
             statement.setString(2, team.getName());
             result = statement.executeUpdate();
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                team.setId(generatedKeys.getInt(1));
-            }
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
@@ -40,13 +35,14 @@ public class TeamDao {
     }
 
     public Team findByStadiumId(int stadiumId) throws SQLException {
-        String query = "SELECT * FROM team_tb WHERE stadium_id = ?";
+        String query = "SELECT * FROM team WHERE stadium_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            //team table에서 해당 stadium_id의 team객체가 존재하는지 확인, 없으면 null return.
+            // team table에서 해당 stadium_id의 team 객체를 가져옴
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+        // 해당되는 객체가 없으면 null 반환.
         return null;
     }
 }

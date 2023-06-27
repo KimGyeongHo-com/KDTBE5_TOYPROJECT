@@ -23,7 +23,7 @@ public class StadiumDao {
 
     // 경기장 등록
     public int insert(Stadium stadium) throws SQLException {
-        String query = "INSERT INTO stadium_tb (name, created_at) VALUES (?, NOW())";
+        String query = "INSERT INTO stadium (name, created_at) VALUES (?, NOW())";
         int result = 0;
         try (PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, stadium.getName());
