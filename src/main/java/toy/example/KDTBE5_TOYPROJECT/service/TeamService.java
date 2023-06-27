@@ -25,6 +25,11 @@ public class TeamService {
             int stadiumId = Integer.parseInt(userInputDTO.getArgument("stadiumId"));
             String name = userInputDTO.getArgument("name");
 
+            // 팀 중복 확인
+            if (teamDao.findByStadiumId(stadiumId) != null){
+                throw new RuntimeException("이미 해당 경기장에 소속된 팀이 있습니다.");
+            }
+
             Team team = new Team(stadiumId, name);
 
             int result = teamDao.insert(team);
