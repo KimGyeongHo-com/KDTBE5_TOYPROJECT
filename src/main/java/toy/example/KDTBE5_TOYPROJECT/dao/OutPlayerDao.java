@@ -62,4 +62,28 @@ public class OutPlayerDao {
         }
         return null;
     }
+
+    public List<OutPlayerRespDTO> getOutPlayerList() {
+        List<OutPlayerRespDTO> outPlayerRespDTOList = new ArrayList<>();
+        String query = "SELECT p.id, p.name, p.position, o.reason, o.created_at FROM player AS p " +
+                "LEFT OUTER JOIN out_player AS o ON p.id = o.player_id";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                outPlayerRespDTOList.add(OutPlayerRespDTO.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .position(resultSet.getString("position"))
+                        .reason(resultSet.getString("reason"))
+                        .createdAt(resultSet.getTimestamp(5))
+                        .build());
+            }
+
+        }catch (SQLException e){
+            Logger.getLogger("퇴출선수 select: " + e.getMessage());
+        }
+        return outPlayerRespDTOList;
+    }
 }
