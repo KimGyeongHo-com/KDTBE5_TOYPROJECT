@@ -17,6 +17,10 @@ public class StadiumService {
 
     public void insertStadium(String name) {
         try (Connection connection = DBConnection.getInstance()) {
+            if (connection == null) {
+                throw new RuntimeException("데이터베이스 연결을 가져올 수 없습니다.");
+            }
+
             // 인자 유무 확인
             if (name == null) {
                 throw new IllegalArgumentException("잘못된 입력입니다.");

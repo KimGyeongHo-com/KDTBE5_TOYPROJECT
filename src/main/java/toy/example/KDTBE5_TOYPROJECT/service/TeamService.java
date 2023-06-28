@@ -1,7 +1,6 @@
 package toy.example.KDTBE5_TOYPROJECT.service;
 
 import db.DBConnection;
-import org.springframework.transaction.annotation.Transactional;
 import toy.example.KDTBE5_TOYPROJECT.dao.TeamDao;
 import toy.example.KDTBE5_TOYPROJECT.model.Team;
 
@@ -16,7 +15,10 @@ public class TeamService {
     }
 
     public void insertTeam(int stadiumId, String name) {
-        try (Connection connection = DBConnection.getInstance();) {
+        try (Connection connection = DBConnection.getInstance()) {
+            if (connection == null) {
+                throw new RuntimeException("데이터베이스 연결을 가져올 수 없습니다.");
+            }
 
             // 인자 유무 확인
             if (stadiumId == 0 || name == null) {
