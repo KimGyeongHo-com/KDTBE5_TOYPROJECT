@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlayerDao {
-private Connection connection;
+    private Connection connection;
     private static final PlayerDao instance = new PlayerDao();
 
     private PlayerDao() {
@@ -23,7 +23,7 @@ private Connection connection;
     public int insert(Player player) throws SQLException {
         String query = "INSERT INTO player (team_id, name, position, created_at) VALUES (?, ?, ?, NOW())";
         int result = 0;
-        try (PreparedStatement statement = connection.prepareStatement(query)){
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, player.getTeamId());
             statement.setString(2, player.getName());
             statement.setString(3, player.getPosition());
