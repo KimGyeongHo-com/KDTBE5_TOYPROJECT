@@ -37,12 +37,20 @@ public class TeamDao {
     public Team findByStadiumId(int stadiumId) throws SQLException {
         String query = "SELECT * FROM team WHERE stadium_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            // team table에서 해당 stadium_id의 team 객체를 가져옴
+            statement.setInt(1, stadiumId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int teamId = resultSet.getInt("id");
+                String teamName = resultSet.getString("name");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+                Team team = new Team(teamId, stadiumId, teamName, createdAt);
+                return team;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(TeamDao.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
-        // 해당되는 객체가 없으면 null 반환.
         return null;
     }
 }

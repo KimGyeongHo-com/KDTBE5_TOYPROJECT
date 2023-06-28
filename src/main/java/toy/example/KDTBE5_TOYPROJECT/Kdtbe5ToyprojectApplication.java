@@ -10,7 +10,6 @@ import toy.example.KDTBE5_TOYPROJECT.service.TeamService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.sql.Connection;
 
 public class Kdtbe5ToyprojectApplication {
     private static StadiumService stadiumService;
@@ -55,6 +54,7 @@ public class Kdtbe5ToyprojectApplication {
         }
     }
 
+    // 문자열 파싱 메서드
     private static Map<String, String> parseUserInput(String userInput) {
         Map<String, String> request = new HashMap<>();
 

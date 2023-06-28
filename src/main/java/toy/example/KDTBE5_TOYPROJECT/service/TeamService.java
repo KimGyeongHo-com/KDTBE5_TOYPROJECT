@@ -17,13 +17,15 @@ public class TeamService {
     public void insertTeam(int stadiumId, String name) {
         try {
             // 인자 유무 확인
-            if (stadiumId == 0 || name == null){
+            if (stadiumId == 0 || name == null) {
                 throw new IllegalArgumentException("잘못된 입력입니다.");
             }
 
             // 팀 중복 확인
-            if (teamDao.findByStadiumId(stadiumId) != null){
-                throw new RuntimeException("이미 해당 경기장에 소속된 팀이 있습니다.");
+            Team existingTeam = teamDao.findByStadiumId(stadiumId);
+            if (existingTeam != null) {
+                System.out.println("이미 해당 경기장에 소속된 팀이 있습니다.");
+                return;
             }
 
             Team team = new Team(stadiumId, name);
