@@ -17,8 +17,9 @@ public class StadiumService {
 
     public void insertStadium(String name) {
         try (Connection connection = DBConnection.getInstance()) {
+            // null일 경우
             if (connection == null) {
-                throw new RuntimeException("데이터베이스 연결을 가져올 수 없습니다.");
+                throw new RuntimeException("연결 실패");
             }
 
             // 인자 유무 확인
