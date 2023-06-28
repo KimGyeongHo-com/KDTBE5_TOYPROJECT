@@ -26,7 +26,10 @@ public class TeamService {
                 throw new IllegalArgumentException("잘못된 입력입니다.");
             }
 
-            connection.setAutoCommit(false);
+            // AutoCommti() true일때, false 설정
+            if (connection.getAutoCommit()){
+                connection.setAutoCommit(false);
+            }
 
             // 팀 중복 확인
             Team existingTeam = teamDao.findByStadiumId(stadiumId);

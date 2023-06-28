@@ -27,7 +27,10 @@ public class PlayerService {
                 throw new IllegalArgumentException("잘못된 입력입니다.");
             }
 
-            connection.setAutoCommit(false);
+            // AutoCommti() true일때, false 설정
+            if (connection.getAutoCommit()){
+                connection.setAutoCommit(false);
+            }
 
             Player player = new Player(teamId, position, name);
 
