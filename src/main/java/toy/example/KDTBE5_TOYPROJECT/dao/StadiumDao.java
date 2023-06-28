@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StadiumDao {
-//    private Connection connection = DBConnection.getInstance();
     private Connection connection;
     private static final StadiumDao instance = new StadiumDao();
 
