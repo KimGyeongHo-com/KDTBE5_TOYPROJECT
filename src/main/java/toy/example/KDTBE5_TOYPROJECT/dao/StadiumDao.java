@@ -11,6 +11,14 @@ import java.util.logging.Logger;
 public class StadiumDao {
     private Connection connection;
     private static final StadiumDao instance = new StadiumDao();
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+
+public class StadiumDao{
+
+    Connection connection = DBConnection.getInstance();
 
     private StadiumDao() {
         connection = DBConnection.getInstance();
@@ -32,4 +40,27 @@ public class StadiumDao {
         }
         return result;
     }
+    //메소드들 작성하시면 됩니다.
+    public List<Stadium> getStadiumList() {
+        List<Stadium> stadiumList = new ArrayList<>();
+        String query = "SELECT * FROM stadium";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Stadium stadium = Stadium.builder()
+                        .id(resultSet.getInt("id")) //colum명을 이렇게 직접 넣나??
+                        .name(resultSet.getString("name"))
+                        .createDate(resultSet.getTimestamp("created_at"))
+                        .build();
+
+                stadiumList.add(stadium);
+            }
+        }catch(SQLException e){
+            Logger.getLogger("경기장 select: " + e.getMessage());
+        }
+        return stadiumList;
+    }
+
 }

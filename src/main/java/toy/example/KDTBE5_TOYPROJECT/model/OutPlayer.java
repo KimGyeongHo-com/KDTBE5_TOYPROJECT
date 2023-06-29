@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @Builder
-public class Expulsion {
+public class OutPlayer {
     private	int id;
     private	int playerId;
     private	String reason;

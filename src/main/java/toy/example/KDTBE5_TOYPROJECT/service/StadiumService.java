@@ -45,4 +45,14 @@ public class StadiumService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    private StadiumDao stadiumDao;
+
+    public StadiumService(StadiumDao stadiumDao){
+        this.stadiumDao = stadiumDao;
+    }
+
+    public List<Stadium> getStadiumList() {
+        return stadiumDao.getStadiumList();
+    }
 }
