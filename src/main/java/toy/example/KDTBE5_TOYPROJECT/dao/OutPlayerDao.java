@@ -12,14 +12,12 @@ import java.util.logging.Logger;
 public class OutPlayerDao {
     private Connection connection;
 
-    private static final OutPlayerDao outPlayerDao = new OutPlayerDao();
-
-    private static OutPlayerDao INSTANCE;
+    private static final OutPlayerDao instance = new OutPlayerDao();
 
     private OutPlayerDao() { connection = DBConnection.getInstance();
     }
     public static OutPlayerDao getInstance() {
-        return INSTANCE;
+        return instance;
     }
 
 

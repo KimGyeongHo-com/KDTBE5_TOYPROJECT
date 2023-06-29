@@ -24,18 +24,21 @@ public class Kdtbe5ToyprojectApplication {
         StadiumDao stadiumDao = StadiumDao.getInstance();
         TeamDao teamDao = TeamDao.getInstance();
         PlayerDao playerDao = PlayerDao.getInstance();
-        OutPlayerService outPlayerService = new OutPlayerService(OutPlayerDao.getInstance());
+        OutPlayerDao outPlayerDao = OutPlayerDao.getInstance();
+
 
         stadiumService = new StadiumService(stadiumDao);
         teamService = new TeamService(teamDao);
         playerService = new PlayerService(playerDao);
-
+        OutPlayerService outPlayerService = new OutPlayerService(outPlayerDao);
         Scanner scanner = new Scanner(System.in);
         System.out.print("어떤 기능을 요청하시겠습니까?");
         String userInput = scanner.nextLine();
 
         Map<String, String> request = parseUserInput(userInput);
         String menu = request.get("menu");
+
+//        String result = playerService.insertOutPlayer(1, "아아아");
 
         switch (menu) {
             case "야구장등록":
@@ -80,8 +83,8 @@ public class Kdtbe5ToyprojectApplication {
             case "퇴출등록":
                 int playerId = Integer.parseInt(request.get("playerId"));
                 String reason = request.get("reason");
-                //토String result = playerService.insertOutPlayer(playerId, reason);
-                String result = playerService.insertOutPlayer(1, "아아아");
+                String result = playerService.insertOutPlayer(playerId, reason);
+                //String result = playerService.insertOutPlayer(1, "아아아");
                 System.out.println(result);
                 break;
             default:

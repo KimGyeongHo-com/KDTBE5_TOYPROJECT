@@ -35,6 +35,11 @@ public class PlayerService {
             if (connection.getAutoCommit()){
                 connection.setAutoCommit(false);
             }
+            List<Player> playerList = playerDao.getPlayersByTeam(teamId);
+            int size = playerList.size();
+            if (size > 9) {
+                throw new IllegalArgumentException("해당 팀의 선수는 가득찼습니다.");
+            }
 
             Player player = new Player(teamId, position, name);
 

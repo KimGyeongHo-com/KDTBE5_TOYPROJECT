@@ -113,14 +113,13 @@ public class PlayerDao {
     }
 
     public int updatePlayer(int id) {
-        String query = "UPDATE player SET teamId = ? WHERE id = ?";
-        int rowCount = -18;
+        String query = "UPDATE player SET teamId = NULL WHERE id = ?";
+        int rowCount = -1;
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setNull(1, Types.INTEGER);
-            statement.setInt(2, id);
+            statement.setInt(1, id);
 
-            rowCount = statement.executeUpdate(); //0일때 처리를 해주면 더 구분이 될듯
+            rowCount = statement.executeUpdate(); // 0일때 처리를 해주면 더 구분이 될듯
         } catch (SQLException e) {
             Logger.getLogger("선수 update: " + e.getMessage());
         }
