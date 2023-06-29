@@ -23,7 +23,7 @@ public class PlayerDao {
 
     // 선수 등록
     public int insert(Player player) throws SQLException {
-        String query = "INSERT INTO player (team_id, name, position, created_at) VALUES (?, ?, ?, NOW())";
+        String query = "INSERT INTO player (teamId, name, position, created_at) VALUES (?, ?, ?, NOW())";
         int result = 0;
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, player.getTeamId());
@@ -65,7 +65,7 @@ public class PlayerDao {
     }
 
 
-    public void printPlayersByPosition() {
+    public void getPlayerByPosition() {
         String sql = "SELECT " +
                 "    position, " +
                 "    MAX(CASE WHEN teamId = '1' THEN name END) AS 해테, " +

@@ -52,5 +52,8 @@ public class PlayerService {
         return playerDao.getPlayersByTeam(teamId);
     }
 
+    public void getPlayerByPosition(){
+        playerDao.getPlayerByPosition();
+    }
 
 }

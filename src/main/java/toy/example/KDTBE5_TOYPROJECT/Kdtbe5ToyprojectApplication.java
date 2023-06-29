@@ -3,13 +3,13 @@ package toy.example.KDTBE5_TOYPROJECT;
 import toy.example.KDTBE5_TOYPROJECT.dao.PlayerDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.StadiumDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.TeamDao;
+import toy.example.KDTBE5_TOYPROJECT.dto.TeamRespDTO;
+import toy.example.KDTBE5_TOYPROJECT.model.Player;
 import toy.example.KDTBE5_TOYPROJECT.service.PlayerService;
 import toy.example.KDTBE5_TOYPROJECT.service.StadiumService;
 import toy.example.KDTBE5_TOYPROJECT.service.TeamService;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Kdtbe5ToyprojectApplication {
     private static StadiumService stadiumService;
@@ -47,6 +47,22 @@ public class Kdtbe5ToyprojectApplication {
                 String position = request.get("position");
                 String playerName = request.get("name");
                 playerService.insertPlayer(teamId, position, playerName);
+                break;
+            case "팀목록":
+                List<TeamRespDTO> teamRespDTOList = teamService.getAllTeam(teamDao);
+                for(TeamRespDTO teamRespDTO : teamRespDTOList)
+                    System.out.println(teamRespDTO);
+                //findById;
+                break;
+            case "선수목록":
+                int teamId2 = Integer.parseInt(request.get("teamId"));
+                List<Player> playerList = new ArrayList<>();
+                playerList = playerService.getPlayersByTeam(teamId2);
+                for(Player player : playerList)
+                        System.out.println(player);
+                break;
+            case "포지션별목록":
+                playerService.getPlayerByPosition();
                 break;
             default:
                 System.out.println("요청하신 기능을 찾을 수 없습니다.");

@@ -47,7 +47,7 @@ public class TeamDao {
 
     // 팀 등록
     public int insert(Team team) throws SQLException {
-        String query = "INSERT INTO team (stadium_id, name, created_at) VALUES (?, ?, NOW())";
+        String query = "INSERT INTO team (stadiumId, name, created_at) VALUES (?, ?, NOW())";
         int result = 0;
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, team.getStadiumId());
@@ -61,7 +61,7 @@ public class TeamDao {
     }
 
     public Team findByStadiumId(int stadiumId) throws SQLException {
-        String query = "SELECT * FROM team WHERE stadium_id = ?";
+        String query = "SELECT * FROM team WHERE stadiumId = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, stadiumId);
             ResultSet resultSet = statement.executeQuery();

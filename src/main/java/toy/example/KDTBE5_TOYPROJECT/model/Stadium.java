@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Stadium {
     private	int id;
