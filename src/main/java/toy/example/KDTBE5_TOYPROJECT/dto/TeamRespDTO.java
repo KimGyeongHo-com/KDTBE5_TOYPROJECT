@@ -10,7 +10,7 @@ public class TeamRespDTO {
     private int id;
     private int stadiumId;
     private String name;
-    private Timestamp createDate;
+    private Timestamp create_at;
 
 
 

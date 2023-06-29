@@ -1,22 +1,15 @@
 package toy.example.KDTBE5_TOYPROJECT.service;
 
-import lombok.RequiredArgsConstructor;
-import toy.example.KDTBE5_TOYPROJECT.dao.TeamDao;
-import toy.example.KDTBE5_TOYPROJECT.dto.PositionRespDto;
-import toy.example.KDTBE5_TOYPROJECT.dto.TeamRespDTO;
-import toy.example.KDTBE5_TOYPROJECT.model.Player;
-import toy.example.KDTBE5_TOYPROJECT.model.Team;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@RequiredArgsConstructor
 import db.DBConnection;
-import toy.example.KDTBE5_TOYPROJECT.dao.TeamDao;
-import toy.example.KDTBE5_TOYPROJECT.model.Team;
 
+
+import toy.example.KDTBE5_TOYPROJECT.dao.TeamDao;
+import toy.example.KDTBE5_TOYPROJECT.dto.TeamRespDTO;
+import toy.example.KDTBE5_TOYPROJECT.model.Team;
 import java.sql.Connection;
+import java.util.List;
 import java.sql.SQLException;
+
 
 public class TeamService {
 
@@ -27,8 +20,6 @@ public class TeamService {
         return teamDao.getAllTeam();
     }
 
-
-    private TeamDao teamDao;
 
     public TeamService(TeamDao teamDao) {
         this.teamDao = teamDao;

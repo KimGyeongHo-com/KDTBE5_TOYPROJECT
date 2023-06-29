@@ -6,6 +6,7 @@ import toy.example.KDTBE5_TOYPROJECT.model.Player;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class PlayerService {
@@ -45,7 +46,7 @@ public class PlayerService {
             throw new RuntimeException(e.getMessage());
         }
     }
-}
+
 
     public List<Player> getPlayersByTeam(int teamId){
         return playerDao.getPlayersByTeam(teamId);

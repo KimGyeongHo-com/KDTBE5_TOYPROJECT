@@ -3,9 +3,12 @@ package toy.example.KDTBE5_TOYPROJECT.dao;
 import java.sql.Connection;
 
 import db.DBConnection;
+import toy.example.KDTBE5_TOYPROJECT.dto.TeamRespDTO;
 import toy.example.KDTBE5_TOYPROJECT.model.Team;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,9 +23,6 @@ public class TeamDao {
     public static TeamDao getInstance() {
         return instance;
     }
-    public static synchronized TeamDao getInstance(){
-        if(INSTANCE == null)
-            INSTANCE = new TeamDao(getInstance().connection);
 
     public List<TeamRespDTO> getAllTeam() {
         String sql = "SELECT * FROM team";
@@ -35,7 +35,7 @@ public class TeamDao {
                 teamRespDTO.setId(teamSet.getInt("id"));
                 teamRespDTO.setStadiumId(teamSet.getInt("stadiumId"));
                 teamRespDTO.setName(teamSet.getString("name"));
-                teamRespDTO.setCreateDate(teamSet.getTimestamp("created_date"));
+                teamRespDTO.setCreate_at(teamSet.getTimestamp("created_at"));
                 teamRespDTOList.add(teamRespDTO);
             }
         } catch (SQLException ex) {
@@ -44,7 +44,7 @@ public class TeamDao {
         return teamRespDTOList;
     }
 
-}
+
     // 팀 등록
     public int insert(Team team) throws SQLException {
         String query = "INSERT INTO team (stadium_id, name, created_at) VALUES (?, ?, NOW())";
