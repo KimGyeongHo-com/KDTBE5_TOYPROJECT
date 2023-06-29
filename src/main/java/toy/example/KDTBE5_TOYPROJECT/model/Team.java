@@ -12,4 +12,9 @@ public class Team {
     private int stadiumId;
     private String name;
     private Timestamp createDate;
+
+    public Team(int stadiumId, String name) {
+        this.stadiumId = stadiumId;
+        this.name = name;
+    }
 }
