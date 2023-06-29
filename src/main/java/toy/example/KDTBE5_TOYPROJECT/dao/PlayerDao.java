@@ -7,18 +7,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 public class PlayerDao {
-    private static PlayerDao INSTANCE;
-    private Connection connection;
 
-    /* 싱글톤 패턴입니다. */
-    private PlayerDao(Connection connection){
-        this.connection = connection;
+    Connection connection = DBConnection.getInstance();
+    private static PlayerDao playerDao = new PlayerDao();
+
+    private PlayerDao(){
+
     }
-    public static synchronized PlayerDao getInstance(){
-        if(INSTANCE == null)
-            INSTANCE = new PlayerDao(getInstance().connection);
-
-        return INSTANCE;
+    public static PlayerDao getInstance(){
+        return playerDao;
     }
 
 

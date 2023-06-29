@@ -6,19 +6,19 @@ import lombok.Getter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-public class StadiumDao {
-    private static StadiumDao INSTANCE;
-    private Connection connection;
+import java.util.logging.Logger;
 
-    /* 싱글톤 패턴입니다. */
-    private StadiumDao(Connection connection){
-        this.connection = connection;
+
+public class StadiumDao{
+
+    Connection connection = DBConnection.getInstance();
+    private static StadiumDao stadiumDao = new StadiumDao();
+
+    private StadiumDao(){
+
     }
-    public static synchronized StadiumDao getInstance(){
-        if(INSTANCE == null)
-            INSTANCE = new StadiumDao(getInstance().connection);
-
-        return INSTANCE;
+    public static StadiumDao getInstance(){
+        return stadiumDao;
     }
 
     //메소드들 작성하시면 됩니다.

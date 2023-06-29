@@ -12,17 +12,15 @@ import java.util.logging.Logger;
 public class OutPlayerDao {
     private static OutPlayerDao INSTANCE;
 
-    private Connection connection;
+    Connection connection = DBConnection.getInstance();
+    private static OutPlayerDao outPlayerDao = new OutPlayerDao();
 
-    /* 싱글톤 패턴입니다. */
-    private OutPlayerDao(Connection connection){
-        this.connection = connection;
-    }
-    public static synchronized OutPlayerDao getInstance(){
-        if(INSTANCE == null)
-            INSTANCE = new OutPlayerDao(DBConnection.getInstance());
+    private OutPlayerDao(){
 
         return INSTANCE;
+    }
+    public static OutPlayerDao getInstance(){
+        return outPlayerDao;
     }
 
     //메소드들 작성하시면 됩니다.
