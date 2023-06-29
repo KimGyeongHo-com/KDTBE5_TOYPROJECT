@@ -5,6 +5,7 @@ import toy.example.KDTBE5_TOYPROJECT.model.Stadium;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import db.DBConnection;
 
@@ -44,12 +45,6 @@ public class StadiumService {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    private StadiumDao stadiumDao;
-
-    public StadiumService(StadiumDao stadiumDao){
-        this.stadiumDao = stadiumDao;
     }
 
     public List<Stadium> getStadiumList() {

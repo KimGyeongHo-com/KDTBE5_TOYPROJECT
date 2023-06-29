@@ -45,7 +45,7 @@ public class PlayerDao {
 
             ResultSet playerSet = statement.executeQuery();
             while (playerSet.next()) {
-                Player player = new Player(12,"null","null");
+                Player player = new Player(12, "null", "null");
                 player.setId(playerSet.getInt("id"));
                 player.setTeamId(playerSet.getInt("teamId"));
                 player.setPosition(playerSet.getString("position"));
@@ -62,7 +62,7 @@ public class PlayerDao {
             Logger.getLogger(PlayerDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return playerList;
-
+    }
 
 
     public void getPlayerByPosition() {
@@ -113,8 +113,8 @@ public class PlayerDao {
     }
 
     public int updatePlayer(int id) {
-        String query = "UPDATE player SET team_id = ? WHERE id = ?";
-        int rowCount = -1;
+        String query = "UPDATE player SET teamId = ? WHERE id = ?";
+        int rowCount = -18;
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setNull(1, Types.INTEGER);

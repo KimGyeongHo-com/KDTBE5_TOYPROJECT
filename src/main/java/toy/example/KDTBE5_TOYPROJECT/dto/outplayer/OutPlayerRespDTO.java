@@ -13,5 +13,5 @@ public class OutPlayerRespDTO {
     private String name;
     private String position;
     private String reason;
-    private Timestamp createdAt;
+    private Timestamp created_at;
 }

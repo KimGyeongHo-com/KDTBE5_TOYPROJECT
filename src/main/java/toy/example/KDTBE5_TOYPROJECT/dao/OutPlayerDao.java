@@ -10,22 +10,25 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class OutPlayerDao {
+    private Connection connection;
+
+    private static final OutPlayerDao outPlayerDao = new OutPlayerDao();
+
     private static OutPlayerDao INSTANCE;
 
-    Connection connection = DBConnection.getInstance();
-    private static OutPlayerDao outPlayerDao = new OutPlayerDao();
-
-    private OutPlayerDao(){
-
+    private OutPlayerDao() { connection = DBConnection.getInstance();
+    }
+    public static OutPlayerDao getInstance() {
         return INSTANCE;
     }
-    public static OutPlayerDao getInstance(){
-        return outPlayerDao;
-    }
+
+
+
+
 
     //메소드들 작성하시면 됩니다.
     public int insertOutPlayer(OutPlayer outPlayer) {
-        String query = "INSERT INTO out_player(player_id, reason, created_at) VALUES (?, ?, now())";
+        String query = "INSERT INTO outPlayer(playerId, reason, created_at) VALUES (?, ?, now())";
         int rowCount = -1;
 
         try(PreparedStatement statement = connection.prepareStatement(query)) {
@@ -40,8 +43,9 @@ public class OutPlayerDao {
         return rowCount;
     }
 
+
     public OutPlayer getOutPlayerByPlayerId(int playerId){
-        String query = "SELECT * FROM out_player WHERE player_id = ?";
+        String query = "SELECT * FROM outPlayer WHERE playerId = ?";
 
         try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, playerId);
@@ -50,9 +54,9 @@ public class OutPlayerDao {
             if (resultSet.next())
                 return OutPlayer.builder()
                         .id(resultSet.getInt("id"))
-                        .playerId(resultSet.getInt("player_id"))
+                        .playerId(resultSet.getInt("playerId"))
                         .reason(resultSet.getString("reason"))
-                        .createDate(resultSet.getTimestamp("created_at"))
+                        .created_at(resultSet.getTimestamp("created_at"))
                         .build();
 
         } catch (SQLException e){
@@ -64,7 +68,7 @@ public class OutPlayerDao {
     public List<OutPlayerRespDTO> getOutPlayerList() {
         List<OutPlayerRespDTO> outPlayerRespDTOList = new ArrayList<>();
         String query = "SELECT p.id, p.name, p.position, o.reason, o.created_at FROM player AS p " +
-                "LEFT OUTER JOIN out_player AS o ON p.id = o.player_id";
+                "LEFT OUTER JOIN outPlayer AS o ON p.id = o.playerId";
 
         try (PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet resultSet = statement.executeQuery();
@@ -75,7 +79,7 @@ public class OutPlayerDao {
                         .name(resultSet.getString("name"))
                         .position(resultSet.getString("position"))
                         .reason(resultSet.getString("reason"))
-                        .createdAt(resultSet.getTimestamp(5))
+                        .created_at(resultSet.getTimestamp(5))
                         .build());
             }
 

@@ -1,12 +1,15 @@
 package toy.example.KDTBE5_TOYPROJECT.service;
 
 import db.DBConnection;
+import toy.example.KDTBE5_TOYPROJECT.dao.OutPlayerDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.PlayerDao;
+import toy.example.KDTBE5_TOYPROJECT.model.OutPlayer;
 import toy.example.KDTBE5_TOYPROJECT.model.Player;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class PlayerService {
@@ -47,15 +50,11 @@ public class PlayerService {
         }
     }
 
-    private PlayerDao playerDao;
-    private OutPlayerDao outPlayerDao;
-
-    public PlayerService(PlayerDao playerDao, OutPlayerDao outPlayerDao){
-        this.playerDao = playerDao;
-        this.outPlayerDao = outPlayerDao;
-    }
 
     public String insertOutPlayer(int playerId, String reason) {
+        PlayerDao playerDao = PlayerDao.getInstance();
+        OutPlayerDao outPlayerDao = OutPlayerDao.getInstance();
+
         try (Connection connection = DBConnection.getInstance()) {
             connection.setAutoCommit(false);
 
@@ -65,10 +64,9 @@ public class PlayerService {
             if (playerDao.findById(playerId) < 1)
                 Logger.getLogger(playerId + "번 플레이어 없음");
 
-            OutPlayer outPlayer = OutPlayer.builder()
-                    .playerId(playerId)
-                    .reason(reason)
-                    .build();
+            OutPlayer outPlayer = new OutPlayer();
+            outPlayer.setPlayerId(playerId);
+            outPlayer.setReason(reason);
 
             int updateResult = playerDao.updatePlayer(playerId);
             OutPlayer outPlayerDC = outPlayerDao.getOutPlayerByPlayerId(playerId);
@@ -89,8 +87,6 @@ public class PlayerService {
         return "실패";
     }
 
-
-}
 
 
     public List<Player> getPlayersByTeam(int teamId){

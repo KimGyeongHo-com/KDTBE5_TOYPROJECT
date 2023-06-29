@@ -1,24 +1,22 @@
 package toy.example.KDTBE5_TOYPROJECT.dao;
 
 import db.DBConnection;
+import lombok.Builder;
 import lombok.Getter;
 import toy.example.KDTBE5_TOYPROJECT.model.Stadium;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StadiumDao {
-    private Connection connection;
-    private static final StadiumDao instance = new StadiumDao();
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-
 
 public class StadiumDao{
+    private Connection connection;
 
-    Connection connection = DBConnection.getInstance();
+    private static final StadiumDao instance = new StadiumDao();
 
     private StadiumDao() {
         connection = DBConnection.getInstance();
@@ -52,7 +50,7 @@ public class StadiumDao{
                 Stadium stadium = Stadium.builder()
                         .id(resultSet.getInt("id")) //colum명을 이렇게 직접 넣나??
                         .name(resultSet.getString("name"))
-                        .createDate(resultSet.getTimestamp("created_at"))
+                        .created_at(resultSet.getTimestamp("created_at"))
                         .build();
 
                 stadiumList.add(stadium);

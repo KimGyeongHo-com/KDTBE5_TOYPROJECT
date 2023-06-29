@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class OutPlayer {
     private	int id;

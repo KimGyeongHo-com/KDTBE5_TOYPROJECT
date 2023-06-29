@@ -1,10 +1,14 @@
 package toy.example.KDTBE5_TOYPROJECT;
 
+import toy.example.KDTBE5_TOYPROJECT.dao.OutPlayerDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.PlayerDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.StadiumDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.TeamDao;
 import toy.example.KDTBE5_TOYPROJECT.dto.TeamRespDTO;
+import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerRespDTO;
 import toy.example.KDTBE5_TOYPROJECT.model.Player;
+import toy.example.KDTBE5_TOYPROJECT.model.Stadium;
+import toy.example.KDTBE5_TOYPROJECT.service.OutPlayerService;
 import toy.example.KDTBE5_TOYPROJECT.service.PlayerService;
 import toy.example.KDTBE5_TOYPROJECT.service.StadiumService;
 import toy.example.KDTBE5_TOYPROJECT.service.TeamService;
@@ -20,6 +24,7 @@ public class Kdtbe5ToyprojectApplication {
         StadiumDao stadiumDao = StadiumDao.getInstance();
         TeamDao teamDao = TeamDao.getInstance();
         PlayerDao playerDao = PlayerDao.getInstance();
+        OutPlayerService outPlayerService = new OutPlayerService(OutPlayerDao.getInstance());
 
         stadiumService = new StadiumService(stadiumDao);
         teamService = new TeamService(teamDao);
@@ -64,11 +69,39 @@ public class Kdtbe5ToyprojectApplication {
             case "포지션별목록":
                 playerService.getPlayerByPosition();
                 break;
+            case "경기장목록":
+                List<Stadium> stadiumList = stadiumService.getStadiumList();
+                stadiumList.stream().forEach(n-> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getCreated_at()));
+                break;
+            case "퇴출목록":
+                List<OutPlayerRespDTO> outPlayerList = outPlayerService.getOutPlayerList();
+                outPlayerList.stream().forEach(n -> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getPosition() + ", " + n.getReason() + "," + n.getCreated_at()));
+                break;
+            case "퇴출등록":
+                int playerId = Integer.parseInt(request.get("playerId"));
+                String reason = request.get("reason");
+                //토String result = playerService.insertOutPlayer(playerId, reason);
+                String result = playerService.insertOutPlayer(1, "아아아");
+                System.out.println(result);
+                break;
             default:
                 System.out.println("요청하신 기능을 찾을 수 없습니다.");
                 break;
         }
     }
+
+    //경기장목록
+//    StadiumService stadiumService = new StadiumService(StadiumDao.getInstance());
+//    List<Stadium> stadiumList = stadiumService.getStadiumList();
+//    stadiumList.stream().forEach(n-> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getCreateDate()));
+//    //퇴출목록
+//
+//    List<OutPlayerRespDTO> outPlayerList = outPlayerService.getOutPlayerList();
+//    outPlayerList.stream().forEach(n -> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getPosition() + ", " + n.getReason() + "," + n.getCreatedAt()));
+//    //퇴출선수등록
+//    PlayerService playerService = new PlayerService(PlayerDao.getInstance(),OutPlayerDao.getInstance());
+//    String result = playerService.insertOutPlayer(1, "퇴출선수");
+//System.out.println(result);
 
     // 문자열 파싱 메서드
     private static Map<String, String> parseUserInput(String userInput) {
