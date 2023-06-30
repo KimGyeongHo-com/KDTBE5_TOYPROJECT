@@ -57,7 +57,6 @@ public class PlayerService {
 
 
     public String insertOutPlayer(int playerId, String reason) {
-        PlayerDao playerDao = PlayerDao.getInstance();
         OutPlayerDao outPlayerDao = OutPlayerDao.getInstance();
 
         try (Connection connection = DBConnection.getInstance()) {
@@ -69,15 +68,16 @@ public class PlayerService {
             if (playerDao.findById(playerId) < 1)
                 Logger.getLogger(playerId + "번 플레이어 없음");
 
-            OutPlayer outPlayer = new OutPlayer();
-            outPlayer.setPlayerId(playerId);
-            outPlayer.setReason(reason);
+            OutPlayer outPlayer = OutPlayer.builder()
+                    .playerId(playerId)
+                    .reason(reason)
+                    .build();
 
             int updateResult = playerDao.updatePlayer(playerId);
-            OutPlayer outPlayerDC = outPlayerDao.getOutPlayerByPlayerId(playerId);
+            OutPlayer outPlayerCheck = outPlayerDao.getOutPlayerByPlayerId(playerId);
             int insertResult = outPlayerDao.insertOutPlayer(outPlayer);
 
-            if (updateResult < 1 || insertResult < 1 || outPlayerDC != null) {
+            if (updateResult < 1 || insertResult < 1 || outPlayerCheck != null) {
                 connection.rollback();
                 Logger.getLogger("퇴출선수 insert 실패: 롤백");
                 return "실패";

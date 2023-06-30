@@ -80,7 +80,7 @@ public class OutPlayerDao {
                         .name(resultSet.getString("name"))
                         .position(resultSet.getString("position"))
                         .reason(resultSet.getString("reason"))
-                        .created_at(resultSet.getTimestamp(5))
+                        .created_at(resultSet.getTimestamp("created_at"))
                         .build());
             }
 
