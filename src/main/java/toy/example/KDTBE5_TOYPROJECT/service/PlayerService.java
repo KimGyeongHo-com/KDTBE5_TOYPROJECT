@@ -3,6 +3,7 @@ package toy.example.KDTBE5_TOYPROJECT.service;
 import db.DBConnection;
 import toy.example.KDTBE5_TOYPROJECT.dao.OutPlayerDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.PlayerDao;
+import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerReqDTO;
 import toy.example.KDTBE5_TOYPROJECT.model.OutPlayer;
 import toy.example.KDTBE5_TOYPROJECT.model.Player;
 
@@ -68,14 +69,14 @@ public class PlayerService {
             if (playerDao.findById(playerId) < 1)
                 Logger.getLogger(playerId + "번 플레이어 없음");
 
-            OutPlayer outPlayer = OutPlayer.builder()
+            OutPlayerReqDTO outPlayerReqDTO = OutPlayerReqDTO.builder()
                     .playerId(playerId)
-                    .reason(reason)
+                    .reason(OutPlayerReqDTO.EReason.valueOf(reason))
                     .build();
 
             int updateResult = playerDao.updatePlayer(playerId);
             OutPlayer outPlayerCheck = outPlayerDao.getOutPlayerByPlayerId(playerId);
-            int insertResult = outPlayerDao.insertOutPlayer(outPlayer);
+            int insertResult = outPlayerDao.insertOutPlayer(outPlayerReqDTO);
 
             if (updateResult < 1 || insertResult < 1 || outPlayerCheck != null) {
                 connection.rollback();
@@ -88,6 +89,8 @@ public class PlayerService {
             return "성공";
         }catch (SQLException e) {
             Logger.getLogger("서비스 인서트: " + e.getMessage());
+        }catch (IllegalArgumentException e){
+            Logger.getLogger("입력 사유 오류: " + e.getMessage());
         }
         return "실패";
     }

@@ -1,6 +1,7 @@
 package toy.example.KDTBE5_TOYPROJECT.dao;
 
 import db.DBConnection;
+import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerReqDTO;
 import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerRespDTO;
 import toy.example.KDTBE5_TOYPROJECT.model.OutPlayer;
 
@@ -25,13 +26,13 @@ public class OutPlayerDao {
 
 
     //메소드들 작성하시면 됩니다.
-    public int insertOutPlayer(OutPlayer outPlayer) {
+    public int insertOutPlayer(OutPlayerReqDTO outPlayerReqDTO) {
         String query = "INSERT INTO outPlayer(playerId, reason, created_at) VALUES (?, ?, now())";
         int rowCount = -1;
 
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, outPlayer.getPlayerId());
-            statement.setString(2, outPlayer.getReason());
+            statement.setInt(1, outPlayerReqDTO.getPlayerId());
+            statement.setString(2, outPlayerReqDTO.getReason().toString());
             ///statement.setString(1, "트랜잭션테스트: 잘못된값");
 
             rowCount = statement.executeUpdate();
