@@ -68,6 +68,9 @@ public class OutPlayerDao {
         String query = "SELECT p.id, p.name, p.position, o.reason, o.created_at FROM player AS p " +
                 "LEFT OUTER JOIN outPlayer AS o ON p.id = o.playerId";
 
+        if(getOutPlayerLength() < 1)
+            return outPlayerRespDTOList;
+
         try (PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet resultSet = statement.executeQuery();
 
@@ -85,5 +88,19 @@ public class OutPlayerDao {
             Logger.getLogger("퇴출선수 select: " + e.getMessage());
         }
         return outPlayerRespDTOList;
+    }
+
+    public int getOutPlayerLength() {
+        String query = "SELECT COUNT(*) from outPlayer";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next())
+                return resultSet.getInt(1);
+        } catch (SQLException e) {
+            Logger.getLogger("퇴출선수테이블 목록: " + e.getMessage());
+        }
+
+        return -1;
     }
 }
