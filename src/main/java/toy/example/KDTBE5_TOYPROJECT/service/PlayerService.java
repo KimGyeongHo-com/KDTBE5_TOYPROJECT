@@ -3,6 +3,7 @@ package toy.example.KDTBE5_TOYPROJECT.service;
 import db.DBConnection;
 import toy.example.KDTBE5_TOYPROJECT.dao.OutPlayerDao;
 import toy.example.KDTBE5_TOYPROJECT.dao.PlayerDao;
+import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerReqDTO;
 import toy.example.KDTBE5_TOYPROJECT.model.OutPlayer;
 import toy.example.KDTBE5_TOYPROJECT.model.Player;
 
@@ -57,7 +58,6 @@ public class PlayerService {
 
 
     public String insertOutPlayer(int playerId, String reason) {
-        PlayerDao playerDao = PlayerDao.getInstance();
         OutPlayerDao outPlayerDao = OutPlayerDao.getInstance();
 
         try (Connection connection = DBConnection.getInstance()) {
@@ -69,15 +69,16 @@ public class PlayerService {
             if (playerDao.findById(playerId) < 1)
                 Logger.getLogger(playerId + "번 플레이어 없음");
 
-            OutPlayer outPlayer = new OutPlayer();
-            outPlayer.setPlayerId(playerId);
-            outPlayer.setReason(reason);
+            OutPlayerReqDTO outPlayerReqDTO = OutPlayerReqDTO.builder()
+                    .playerId(playerId)
+                    .reason(OutPlayerReqDTO.EReason.valueOf(reason))
+                    .build();
 
             int updateResult = playerDao.updatePlayer(playerId);
-            OutPlayer outPlayerDC = outPlayerDao.getOutPlayerByPlayerId(playerId);
-            int insertResult = outPlayerDao.insertOutPlayer(outPlayer);
+            OutPlayer outPlayerCheck = outPlayerDao.getOutPlayerByPlayerId(playerId);
+            int insertResult = outPlayerDao.insertOutPlayer(outPlayerReqDTO);
 
-            if (updateResult < 1 || insertResult < 1 || outPlayerDC != null) {
+            if (updateResult < 1 || insertResult < 1 || outPlayerCheck != null) {
                 connection.rollback();
                 Logger.getLogger("퇴출선수 insert 실패: 롤백");
                 return "실패";
@@ -88,6 +89,8 @@ public class PlayerService {
             return "성공";
         }catch (SQLException e) {
             Logger.getLogger("서비스 인서트: " + e.getMessage());
+        }catch (IllegalArgumentException e){
+            Logger.getLogger("입력 사유 오류: " + e.getMessage());
         }
         return "실패";
     }

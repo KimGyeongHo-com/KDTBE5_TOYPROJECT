@@ -1,6 +1,7 @@
 package toy.example.KDTBE5_TOYPROJECT.dao;
 
 import db.DBConnection;
+import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerReqDTO;
 import toy.example.KDTBE5_TOYPROJECT.dto.outplayer.OutPlayerRespDTO;
 import toy.example.KDTBE5_TOYPROJECT.model.OutPlayer;
 
@@ -25,13 +26,13 @@ public class OutPlayerDao {
 
 
     //메소드들 작성하시면 됩니다.
-    public int insertOutPlayer(OutPlayer outPlayer) {
+    public int insertOutPlayer(OutPlayerReqDTO outPlayerReqDTO) {
         String query = "INSERT INTO outPlayer(playerId, reason, created_at) VALUES (?, ?, now())";
         int rowCount = -1;
 
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, outPlayer.getPlayerId());
-            statement.setString(2, outPlayer.getReason());
+            statement.setInt(1, outPlayerReqDTO.getPlayerId());
+            statement.setString(2, outPlayerReqDTO.getReason().toString());
             ///statement.setString(1, "트랜잭션테스트: 잘못된값");
 
             rowCount = statement.executeUpdate();
@@ -68,6 +69,9 @@ public class OutPlayerDao {
         String query = "SELECT p.id, p.name, p.position, o.reason, o.created_at FROM player AS p " +
                 "LEFT OUTER JOIN outPlayer AS o ON p.id = o.playerId";
 
+        if(getOutPlayerLength() < 1)
+            return outPlayerRespDTOList;
+
         try (PreparedStatement statement = connection.prepareStatement(query)){
             ResultSet resultSet = statement.executeQuery();
 
@@ -77,7 +81,7 @@ public class OutPlayerDao {
                         .name(resultSet.getString("name"))
                         .position(resultSet.getString("position"))
                         .reason(resultSet.getString("reason"))
-                        .created_at(resultSet.getTimestamp(5))
+                        .created_at(resultSet.getTimestamp("created_at"))
                         .build());
             }
 
@@ -85,5 +89,19 @@ public class OutPlayerDao {
             Logger.getLogger("퇴출선수 select: " + e.getMessage());
         }
         return outPlayerRespDTOList;
+    }
+
+    public int getOutPlayerLength() {
+        String query = "SELECT COUNT(*) from outPlayer";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next())
+                return resultSet.getInt(1);
+        } catch (SQLException e) {
+            Logger.getLogger("퇴출선수테이블 목록: " + e.getMessage());
+        }
+
+        return -1;
     }
 }
