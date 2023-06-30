@@ -26,7 +26,6 @@ public class Kdtbe5ToyprojectApplication {
         PlayerDao playerDao = PlayerDao.getInstance();
         OutPlayerDao outPlayerDao = OutPlayerDao.getInstance();
 
-
         stadiumService = new StadiumService(stadiumDao);
         teamService = new TeamService(teamDao);
         playerService = new PlayerService(playerDao);
@@ -37,8 +36,6 @@ public class Kdtbe5ToyprojectApplication {
 
         Map<String, String> request = parseUserInput(userInput);
         String menu = request.get("menu");
-
-//        String result = playerService.insertOutPlayer(1, "아아아");
 
         switch (menu) {
             case "야구장등록":
@@ -78,13 +75,12 @@ public class Kdtbe5ToyprojectApplication {
                 break;
             case "퇴출목록":
                 List<OutPlayerRespDTO> outPlayerList = outPlayerService.getOutPlayerList();
-                outPlayerList.stream().forEach(n -> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getPosition() + ", " + n.getReason() + "," + n.getCreated_at()));
+                outPlayerList.stream().forEach(n -> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getPosition() + ", " + n.getReason() + ", " + n.getCreated_at()));
                 break;
             case "퇴출등록":
                 int playerId = Integer.parseInt(request.get("playerId"));
                 String reason = request.get("reason");
                 String result = playerService.insertOutPlayer(playerId, reason);
-                //String result = playerService.insertOutPlayer(1, "아아아");
                 System.out.println(result);
                 break;
             default:
@@ -92,19 +88,6 @@ public class Kdtbe5ToyprojectApplication {
                 break;
         }
     }
-
-    //경기장목록
-//    StadiumService stadiumService = new StadiumService(StadiumDao.getInstance());
-//    List<Stadium> stadiumList = stadiumService.getStadiumList();
-//    stadiumList.stream().forEach(n-> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getCreateDate()));
-//    //퇴출목록
-//
-//    List<OutPlayerRespDTO> outPlayerList = outPlayerService.getOutPlayerList();
-//    outPlayerList.stream().forEach(n -> System.out.println(n.getId() + ", " + n.getName() + ", " + n.getPosition() + ", " + n.getReason() + "," + n.getCreatedAt()));
-//    //퇴출선수등록
-//    PlayerService playerService = new PlayerService(PlayerDao.getInstance(),OutPlayerDao.getInstance());
-//    String result = playerService.insertOutPlayer(1, "퇴출선수");
-//System.out.println(result);
 
     // 문자열 파싱 메서드
     private static Map<String, String> parseUserInput(String userInput) {
